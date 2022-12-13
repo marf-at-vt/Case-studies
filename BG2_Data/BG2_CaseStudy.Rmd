@@ -26,6 +26,7 @@ The SNP matrix, the kinship matrix, the observed phenotypes, and the SNP informa
 
 ```{r}
 set.seed(1330)
+on.exit(close(url))
 load(url("https://github.com/marf-at-vt/Case_studies/blob/main/BG2_Data/AThaliana_CaseStudy.rda?raw=true"))
 n <- length(Y)
 covariance <- list()
@@ -34,7 +35,7 @@ covariance[[2]] <- diag(1, nrow = n, ncol = n)
 
 output_casestudy <- BG2(Y=Y, SNPs=SNPs, Fixed = NULL, 
                         Covariance=covariance, Z=NULL, family="poisson", 
-                        replicates=12, Tau="uniform",FDR_Nominal = 0.05, 
+                        replicates=replicates, Tau="uniform",FDR_Nominal = 0.05, 
                         maxiterations = 4000, runs_til_stop = 400)
 SNP_Info[output_casestudy,]
 ```
