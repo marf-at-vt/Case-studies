@@ -41,6 +41,8 @@ output_casestudy <- BG2(Y=Y, SNPs=SNPs, Fixed = NULL,
 SNP_Info[output_casestudy,]
 ```
 
+To further investigate SNPs discovered by BG2, we used the JBrowse software available online at https://jbrowse.arabidopsis.org/. 
+
 # References
 
 - Lardon, Robin, Erik Wijnker, Joost Keurentjes, and Danny Geelen. 2020. “The Genetic Framework of Shoot Regeneration in Arabidopsis Comprises Master Regulators and Conditional Fine-Tuning Factors.” Communications Biology 3 (1): 1–13.
