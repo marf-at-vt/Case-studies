@@ -1,0 +1,1 @@
+BG2_Data contains both the data to from the case study presented in the BG2 manuscript as well as the code to conduct the case study. The case study code sources the code from the BG2 package to perform the analysis.
