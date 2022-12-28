@@ -13,7 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Code for the BG2 manuscript is located at https://github.com/marf-at-vt/BG2. For this case study, the code is sourced into the local environment with the following command.
 
-```{r}
+```{r,message=FALSE}
 library(GA)
 library(caret)
 library(memoise)
