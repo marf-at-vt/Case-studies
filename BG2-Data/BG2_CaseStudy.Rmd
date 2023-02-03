@@ -1,0 +1,53 @@
+---
+title: "BG2 A. Thaliana Case Study"
+author: "Shuangshuang Xu, Jacob Williams, and Marco A.R. Ferreira"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## BG2 Code
+
+Code for the BG2 manuscript is located at https://github.com/marf-at-vt/BG2. For this case study, the code is sourced into the local environment with the following command.
+
+```{r,message=FALSE}
+library(GA)
+library(caret)
+library(memoise)
+library(Matrix)
+library(MASS)
+source(url("https://raw.githubusercontent.com/marf-at-vt/BG2/main/R/BG2.R"))
+```
+
+
+## BG2 A. Thaliana Case Study
+
+Data on root-like structures in A. Thaliana is from a study of plant regeneration from root explants (Lardon et al. 2020). We focus on the number of root-like structures after 21 days in which seedlings are under warm white light at 21$^o$C following a 14/10 h light/dark regime. There are 188,980 SNPs from 152 ecotypes of A. Thaliana from TAIR9 with MAF>0.01. Each ecotype has differing number of replicates with the majority of ecotypes having 12 explants.
+
+The SNP matrix, the kinship matrix, the observed phenotypes, the SNP information, and the number of replicates of each ecotype for this _A. Thaliana_ case study are available from the link below. The model chosen to fit based on results of the simulation study in the BG2 manuscript is a Poisson generalized linear mixed model with a kinship random effect and an overdispersion random effect. Further, using a uniform prior for the nonlocal prior dispersion parameter $\tau$ has shown optimal results. The below code demonstrates how to obtain the results from the case study in the BG2 manuscript.
+
+This takes approximately 5 minutes on a Macbook Pro with a 2.6GHz Intel Core i5 processor.
+
+```{r}
+load(url("https://github.com/marf-at-vt/Case_studies/blob/main/BG2_Data/AThaliana_CaseStudy.rda?raw=true"))
+n <- length(Y)
+covariance <- list()
+covariance[[1]] <- kinship
+covariance[[2]] <- diag(1, nrow = n, ncol = n)
+
+output_casestudy <- BG2(Y=Y, SNPs=SNPs, Fixed = NULL, 
+                        Covariance=covariance, Z=NULL, family="poisson", 
+                        replicates=replicates, Tau="uniform",FDR_Nominal = 0.05, 
+                        maxiterations = 4000, runs_til_stop = 400)
+SNP_Info[output_casestudy,]
+```
+
+To further investigate SNPs discovered by BG2, we used the JBrowse software available online at https://jbrowse.arabidopsis.org/. 
+
+# References
+
+- Lardon, Robin, Erik Wijnker, Joost Keurentjes, and Danny Geelen. 2020. “The Genetic Framework of Shoot Regeneration in Arabidopsis Comprises Master Regulators and Conditional Fine-Tuning Factors.” Communications Biology 3 (1): 1–13.
+
